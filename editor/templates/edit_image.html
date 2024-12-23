@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Image</title>
+    <style>
+        /* Base Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f0f4f8;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            background: #fff;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .image-wrapper {
+            width: 100%;
+            height: auto; /* Maintains proportional height based on content */
+            background: #e0e6f1;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        
+            /* Ensures the background image scales properly */
+            background-size: contain; /* Entire image will fit inside container */
+            background-position: center; /* Centers the image in the container */
+            background-repeat: no-repeat; /* Prevents repetition */
+        }
+        
+        #imagePreview {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain; /* Ensures the image adjusts to fit within the bounds */
+            border-radius: 10px;
+        }
+
+        /* Color Picker */
+        .color-picker {
+            width: 50px;
+            height: 50px;
+            padding: 0;
+            margin-bottom: 20px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        /* Button Styling */
+        button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            text-align: center;
+            display: inline-block;
+            font-size: 1rem;
+            border-radius: 50px;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        button:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+
+        button:focus {
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Edit the Image Background</h1>
+    <div class="container">
+        <div class="image-wrapper">
+            <!-- Preview of the processed image -->
+            <img id="imagePreview" src="{{ image.processed_image.url }}" alt="Processed Image">
+        </div>
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <!-- The color picker to choose background color -->
+            <input type="color" id="colorPicker" name="selected_color" value="#FFFFFF"
+                   oninput="updateBackgroundColor(this.value)">
+            <!-- Background image input field -->
+            <input type="file" name="background_image" accept="image/*" onchange="updateBackgroundImagePreview(event)">
+            <button type="submit">Download Image</button>
+        </form>
+    </div>
+
+    <script>
+        function updateBackgroundColor(color) {
+            document.querySelector(".image-wrapper").style.backgroundColor = color;
+        }
+    
+        function updateBackgroundImagePreview(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+    
+            reader.onload = function (e) {
+                const wrapper = document.querySelector(".image-wrapper");
+                wrapper.style.backgroundImage = "url(" + e.target.result + ")";
+                wrapper.style.backgroundColor = "transparent"; // Clear any set background color
+            };
+    
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+</body>
+</html>

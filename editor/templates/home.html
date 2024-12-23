@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload an Image</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #f06, #48c6ef);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            color: #34495e;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+        label {
+            display: none;
+            align-items: center;
+            font-size: 1.1rem;
+            color: #34495e;
+            margin-bottom: 10px;
+        }
+
+        input[type="file"] {
+            width: 100%;
+            padding: 15px;
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            color: #34495e;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .submit-btn {
+            background: #48c6ef;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            border: none;
+            transition: background 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: #006b8f;
+        }
+
+        /* Mobile-Responsive */
+        @media screen and (max-width: 600px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .container {
+                padding: 20px;
+                width: 90%;
+            }
+
+            .submit-btn {
+                width: 100%;
+                padding: 20px;
+            }
+
+            input[type="file"] {
+                width: 100%;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Upload an Image</h1>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="image">
+                    <i class="fas fa-image"></i> Choose Image
+                </label>
+                <input type="file" name="original_image" accept="image/*" required="" id="id_original_image">
+            </div>
+        
+            <button type="submit" class="submit-btn">
+                <i class="fas fa-upload"></i> Remove Background
+            </button>
+        </form>
+    </div>
+
+</body>
+</html>
